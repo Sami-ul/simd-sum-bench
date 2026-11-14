@@ -15,6 +15,7 @@ bool sums_match(std::span<const float> v) {
     bool simd_ok = std::abs(sum_simd(v) - reference) <= tolerance;
     return regular_ok && simd_ok;
 }
+
 int main()
 {
     constexpr int N = 1'000'000;
@@ -42,6 +43,7 @@ int main()
     auto benchmark = [&](const char *name, auto fn)
     {
         double best = 1e18;
+        double total = 0;
         float result = 0;
 
         for (int run = 0; run < 500; ++run)
@@ -51,11 +53,12 @@ int main()
             auto end = Clock::now();
 
             double us = std::chrono::duration<double, std::micro>(end - start).count();
+            total += us;
             best = std::min(best, us);
         }
 
-        std::cout << name << ": " << best
-                  << " us, sum = " << result << '\n';
+        std::cout << name << " best : " << best
+                  << " us" << "\naverage : " << total/500.0 << "\nsum=" << result << '\n';
     };
 
     benchmark("Regular", sum_regular);
