@@ -1,5 +1,7 @@
 # simd-sum-bench
 
+Read this article to get up to speed on SIMD: https://mitchellh.com/writing/everyone-should-know-simd, then I built this mini-project.
+
 Sums 1,000,000 floats two ways and times both: a plain loop, and a hand-written SIMD loop built with [xsimd](https://github.com/xtensor-stack/xsimd).
 
 | Version | Best | Average | Speedup |
